@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${tituloFormulario})}"></head>
+<body>
+<header th:replace="~{fragments/layout :: nav('categorias')}"></header>
+<main class="page narrow">
+    <section class="page-header">
+        <div>
+            <p class="eyebrow">CRUD Categorias</p>
+            <h1 th:text="${tituloFormulario}">Categoria</h1>
+        </div>
+        <a class="btn ghost" th:href="@{/categorias}">Volver</a>
+    </section>
+
+    <form class="form-panel" th:action="@{/categorias/guardar}" th:object="${categoria}" method="post">
+        <input type="hidden" th:field="*{id}">
+
+        <label>
+            <span>Nombre</span>
+            <input type="text" th:field="*{nombre}" placeholder="Ej. Deportes">
+            <small class="field-error" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></small>
+        </label>
+
+        <label>
+            <span>Descripcion</span>
+            <textarea rows="4" th:field="*{descripcion}" placeholder="Descripcion breve de la categoria"></textarea>
+            <small class="field-error" th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></small>
+        </label>
+
+        <label class="check-row">
+            <input type="checkbox" th:field="*{activo}">
+            <span>Categoria activa</span>
+        </label>
+
+        <div class="form-actions">
+            <button class="btn primary" type="submit">Guardar</button>
+            <a class="btn secondary" th:href="@{/categorias}">Cancelar</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

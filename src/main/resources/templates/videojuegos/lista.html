@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Videojuegos')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: nav('videojuegos')}"></header>
+<main class="page">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+
+    <section class="page-header">
+        <div>
+            <p class="eyebrow">CRUD 2</p>
+            <h1>Videojuegos</h1>
+        </div>
+        <a class="btn primary" th:href="@{/videojuegos/nuevo}">Nuevo videojuego</a>
+    </section>
+
+    <form class="toolbar" th:action="@{/videojuegos}" method="get">
+        <label class="search">
+            <span>Buscar</span>
+            <input type="search" name="q" th:value="${q}" placeholder="Titulo del videojuego">
+        </label>
+        <button class="btn secondary" type="submit">Buscar</button>
+        <a class="btn ghost" th:href="@{/videojuegos}">Limpiar</a>
+    </form>
+
+    <section class="table-panel wide">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Titulo</th>
+                <th>Categoria</th>
+                <th>Desarrolladora</th>
+                <th>Plataformas</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th class="actions-col">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="videojuego : ${videojuegos}">
+                <td th:text="${videojuego.id}">1</td>
+                <td>
+                    <a class="table-link" th:href="@{/videojuegos/{id}(id=${videojuego.id})}"
+                       th:text="${videojuego.titulo}">Titulo</a>
+                </td>
+                <td th:text="${videojuego.categoria.nombre}">Categoria</td>
+                <td th:text="${videojuego.desarrolladora.nombre}">Desarrolladora</td>
+                <td>
+                    <span class="chip" th:each="plataforma, stat : ${videojuego.plataformas}"
+                          th:text="${plataforma.nombre + (stat.last ? '' : ',')}">PC</span>
+                </td>
+                <td th:text="${'$' + videojuego.precio}">$0.00</td>
+                <td th:text="${videojuego.stock}">0</td>
+                <td class="actions">
+                    <a class="btn small ghost" th:href="@{/videojuegos/{id}(id=${videojuego.id})}">Ver</a>
+                    <a class="btn small secondary" th:href="@{/videojuegos/{id}/editar(id=${videojuego.id})}">Editar</a>
+                    <form th:action="@{/videojuegos/{id}/eliminar(id=${videojuego.id})}" method="post"
+                          onsubmit="return confirm('Desea eliminar este videojuego?');">
+                        <button class="btn small danger" type="submit">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(videojuegos)}">
+                <td colspan="8" class="empty">No hay videojuegos para mostrar.</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Inicio')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: nav('inicio')}"></header>
+<main class="page">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+
+    <section class="hero-panel">
+        <div>
+            <p class="eyebrow">Programacion 3 - Parcial 4</p>
+            <h1>Sistema web para catalogar videojuegos</h1>
+            <p class="hero-text">
+                Proyecto MVC con Spring Boot, Thymeleaf, Spring Data JPA, validaciones,
+                base de datos propia y relaciones entre entidades.
+            </p>
+        </div>
+        <div class="hero-actions">
+            <a class="btn primary" th:href="@{/videojuegos}">CRUD Videojuegos</a>
+            <a class="btn secondary" th:href="@{/categorias}">CRUD Categorias</a>
+        </div>
+    </section>
+
+    <section class="stats-grid" aria-label="Resumen del sistema">
+        <article class="stat-card">
+            <span class="stat-label">Videojuegos</span>
+            <strong th:text="${totalVideojuegos}">0</strong>
+        </article>
+        <article class="stat-card">
+            <span class="stat-label">Categorias</span>
+            <strong th:text="${totalCategorias}">0</strong>
+        </article>
+        <article class="stat-card">
+            <span class="stat-label">Plataformas</span>
+            <strong th:text="${totalPlataformas}">0</strong>
+        </article>
+        <article class="stat-card">
+            <span class="stat-label">Desarrolladoras</span>
+            <strong th:text="${totalDesarrolladoras}">0</strong>
+        </article>
+    </section>
+
+    <section class="content-grid">
+        <article class="info-panel">
+            <h2>Relaciones JPA</h2>
+            <dl class="schema-list">
+                <div>
+                    <dt>@OneToMany</dt>
+                    <dd>Categoria contiene varios videojuegos.</dd>
+                </div>
+                <div>
+                    <dt>@ManyToOne</dt>
+                    <dd>Videojuego pertenece a una categoria y a una desarrolladora.</dd>
+                </div>
+                <div>
+                    <dt>@ManyToMany</dt>
+                    <dd>Videojuego se publica en varias plataformas.</dd>
+                </div>
+            </dl>
+        </article>
+        <article class="info-panel">
+            <h2>Base de datos</h2>
+            <dl class="schema-list">
+                <div>
+                    <dt>Nombre</dt>
+                    <dd>tienda_videojuegos_db</dd>
+                </div>
+                <div>
+                    <dt>URL JDBC</dt>
+                    <dd>jdbc:h2:file:./data/tienda_videojuegos_db</dd>
+                </div>
+                <div>
+                    <dt>Tablas</dt>
+                    <dd>categorias, desarrolladoras, videojuegos, plataformas, videojuego_plataforma.</dd>
+                </div>
+            </dl>
+        </article>
+    </section>
+</main>
+</body>
+</html>

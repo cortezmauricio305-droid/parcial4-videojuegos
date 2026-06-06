@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${tituloFormulario})}"></head>
+<body>
+<header th:replace="~{fragments/layout :: nav('videojuegos')}"></header>
+<main class="page narrow">
+    <section class="page-header">
+        <div>
+            <p class="eyebrow">CRUD Videojuegos</p>
+            <h1 th:text="${tituloFormulario}">Videojuego</h1>
+        </div>
+        <a class="btn ghost" th:href="@{/videojuegos}">Volver</a>
+    </section>
+
+    <form class="form-panel" th:action="@{/videojuegos/guardar}" th:object="${videojuego}" method="post">
+        <input type="hidden" th:field="*{id}">
+
+        <div class="form-grid">
+            <label>
+                <span>Titulo</span>
+                <input type="text" th:field="*{titulo}" placeholder="Ej. Racing Pro">
+                <small class="field-error" th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}"></small>
+            </label>
+
+            <label>
+                <span>Clasificacion</span>
+                <input type="text" th:field="*{clasificacionEdad}" placeholder="E, E10+, T, M">
+                <small class="field-error" th:if="${#fields.hasErrors('clasificacionEdad')}"
+                       th:errors="*{clasificacionEdad}"></small>
+            </label>
+
+            <label>
+                <span>Precio</span>
+                <input type="number" step="0.01" min="0.01" th:field="*{precio}">
+                <small class="field-error" th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}"></small>
+            </label>
+
+            <label>
+                <span>Stock</span>
+                <input type="number" min="0" th:field="*{stock}">
+                <small class="field-error" th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}"></small>
+            </label>
+
+            <label>
+                <span>Fecha de lanzamiento</span>
+                <input type="date" th:field="*{fechaLanzamiento}">
+            </label>
+
+            <label>
+                <span>Categoria</span>
+                <select name="categoriaId" required>
+                    <option value="">Seleccione una categoria</option>
+                    <option th:each="categoria : ${categorias}" th:value="${categoria.id}"
+                            th:text="${categoria.nombre}"
+                            th:selected="${(categoriaIdSeleccionada != null and categoriaIdSeleccionada == categoria.id) or (videojuego.categoria != null and videojuego.categoria.id == categoria.id)}">
+                        Categoria
+                    </option>
+                </select>
+            </label>
+
+            <label>
+                <span>Desarrolladora</span>
+                <select name="desarrolladoraId" required>
+                    <option value="">Seleccione una desarrolladora</option>
+                    <option th:each="desarrolladora : ${desarrolladoras}" th:value="${desarrolladora.id}"
+                            th:text="${desarrolladora.nombre}"
+                            th:selected="${(desarrolladoraIdSeleccionada != null and desarrolladoraIdSeleccionada == desarrolladora.id) or (videojuego.desarrolladora != null and videojuego.desarrolladora.id == desarrolladora.id)}">
+                        Desarrolladora
+                    </option>
+                </select>
+            </label>
+
+            <label>
+                <span>Plataformas</span>
+                <select name="plataformaIds" multiple size="4">
+                    <option th:each="plataforma : ${plataformas}" th:value="${plataforma.id}"
+                            th:text="${plataforma.nombre}"
+                            th:selected="${plataformaIdsSeleccionadas.contains(plataforma.id)}">
+                        Plataforma
+                    </option>
+                </select>
+            </label>
+        </div>
+
+        <label>
+            <span>Descripcion</span>
+            <textarea rows="4" th:field="*{descripcion}" placeholder="Descripcion del videojuego"></textarea>
+            <small class="field-error" th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></small>
+        </label>
+
+        <label class="check-row">
+            <input type="checkbox" th:field="*{activo}">
+            <span>Videojuego activo</span>
+        </label>
+
+        <div class="form-actions">
+            <button class="btn primary" type="submit">Guardar</button>
+            <a class="btn secondary" th:href="@{/videojuegos}">Cancelar</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

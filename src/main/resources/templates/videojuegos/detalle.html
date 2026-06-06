@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${videojuego.titulo})}"></head>
+<body>
+<header th:replace="~{fragments/layout :: nav('videojuegos')}"></header>
+<main class="page narrow">
+    <section class="page-header">
+        <div>
+            <p class="eyebrow">Detalle</p>
+            <h1 th:text="${videojuego.titulo}">Videojuego</h1>
+        </div>
+        <div class="actions">
+            <a class="btn secondary" th:href="@{/videojuegos/{id}/editar(id=${videojuego.id})}">Editar</a>
+            <a class="btn ghost" th:href="@{/videojuegos}">Volver</a>
+        </div>
+    </section>
+
+    <section class="detail-panel">
+        <dl class="detail-list">
+            <div>
+                <dt>ID</dt>
+                <dd th:text="${videojuego.id}">1</dd>
+            </div>
+            <div>
+                <dt>Categoria</dt>
+                <dd th:text="${videojuego.categoria.nombre}">Categoria</dd>
+            </div>
+            <div>
+                <dt>Desarrolladora</dt>
+                <dd th:text="${videojuego.desarrolladora.nombre}">Desarrolladora</dd>
+            </div>
+            <div>
+                <dt>Precio</dt>
+                <dd th:text="${'$' + videojuego.precio}">$0.00</dd>
+            </div>
+            <div>
+                <dt>Stock</dt>
+                <dd th:text="${videojuego.stock}">0</dd>
+            </div>
+            <div>
+                <dt>Fecha lanzamiento</dt>
+                <dd th:text="${videojuego.fechaLanzamiento}">2026-01-01</dd>
+            </div>
+            <div>
+                <dt>Clasificacion</dt>
+                <dd th:text="${videojuego.clasificacionEdad}">T</dd>
+            </div>
+            <div>
+                <dt>Estado</dt>
+                <dd>
+                    <span class="status" th:classappend="${videojuego.activo} ? ' ok' : ' muted'"
+                          th:text="${videojuego.activo} ? 'Activo' : 'Inactivo'">Activo</span>
+                </dd>
+            </div>
+            <div class="full">
+                <dt>Plataformas</dt>
+                <dd>
+                    <span class="chip" th:each="plataforma, stat : ${videojuego.plataformas}"
+                          th:text="${plataforma.nombre + (stat.last ? '' : ',')}">PC</span>
+                </dd>
+            </div>
+            <div class="full">
+                <dt>Descripcion</dt>
+                <dd th:text="${videojuego.descripcion}">Descripcion</dd>
+            </div>
+        </dl>
+    </section>
+</main>
+</body>
+</html>

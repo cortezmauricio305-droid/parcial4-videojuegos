@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Categorias')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: nav('categorias')}"></header>
+<main class="page">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+
+    <section class="page-header">
+        <div>
+            <p class="eyebrow">CRUD 1</p>
+            <h1>Categorias</h1>
+        </div>
+        <a class="btn primary" th:href="@{/categorias/nuevo}">Nueva categoria</a>
+    </section>
+
+    <form class="toolbar" th:action="@{/categorias}" method="get">
+        <label class="search">
+            <span>Buscar</span>
+            <input type="search" name="q" th:value="${q}" placeholder="Nombre de categoria">
+        </label>
+        <button class="btn secondary" type="submit">Buscar</button>
+        <a class="btn ghost" th:href="@{/categorias}">Limpiar</a>
+    </form>
+
+    <section class="table-panel">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>Estado</th>
+                <th class="actions-col">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="categoria : ${categorias}">
+                <td th:text="${categoria.id}">1</td>
+                <td th:text="${categoria.nombre}">Accion</td>
+                <td th:text="${categoria.descripcion}">Descripcion</td>
+                <td>
+                    <span class="status" th:classappend="${categoria.activo} ? ' ok' : ' muted'"
+                          th:text="${categoria.activo} ? 'Activa' : 'Inactiva'">Activa</span>
+                </td>
+                <td class="actions">
+                    <a class="btn small secondary" th:href="@{/categorias/{id}/editar(id=${categoria.id})}">Editar</a>
+                    <form th:action="@{/categorias/{id}/eliminar(id=${categoria.id})}" method="post"
+                          onsubmit="return confirm('Desea eliminar esta categoria?');">
+                        <button class="btn small danger" type="submit">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(categorias)}">
+                <td colspan="5" class="empty">No hay categorias para mostrar.</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+</body>
+</html>
